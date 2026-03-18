@@ -42,7 +42,7 @@ body {
 
 /* 选中文字颜色 */
 ::selection {
-    background: rgba(102, 126, 234, 0.3);
+    background: rgba(63, 100, 228, 0.3);
     color: inherit;
 }
 
@@ -62,7 +62,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+    background: #3F64E4;
 }
 
 /* LightGallery 全局自定义 */
@@ -71,7 +71,7 @@ body {
 }
 
 .lg-toolbar {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: #3F64E4 !important;
 }
 
 .lg-toolbar .lg-icon {
@@ -84,15 +84,17 @@ body {
 
 .lg-outer .lg-thumb-item {
     border: 2px solid transparent !important;
-    border-radius: 4px;
-    opacity: 0.6;
+    border-radius: 6px;
+    opacity: 0.5;
     transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 .lg-outer .lg-thumb-item.active,
 .lg-outer .lg-thumb-item:hover {
-    border-color: #667eea !important;
+    border-color: #3F64E4 !important;
     opacity: 1;
+    box-shadow: 0 4px 12px rgba(63, 100, 228, 0.3);
 }
 
 .lg-outer .lg-img-wrap {
@@ -106,9 +108,9 @@ body {
 
 /* 图片加载占位 */
 img {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%);
     background-size: 200% 100%;
-    animation: loading 1.5s infinite;
+    animation: shimmer 1.5s ease-in-out infinite;
 }
 
 img[src] {
@@ -116,8 +118,20 @@ img[src] {
     background: transparent;
 }
 
-@keyframes loading {
+@keyframes shimmer {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
+}
+
+/* 图片加载完成淡入效果 */
+img[src] {
+    opacity: 0;
+    animation: fadeInImage 0.5s ease forwards;
+}
+
+@keyframes fadeInImage {
+    to {
+        opacity: 1;
+    }
 }
 </style>

@@ -1,5 +1,11 @@
 <template>
     <div class="gallery-page">
+        <!-- 顶部提示条 -->
+        <div class="notice-bar">
+            <span class="notice-icon">📢</span>
+            <span class="notice-text">野火IM 持续优化、更新，最新产品可能和截图不一致，请以实际产品为准</span>
+        </div>
+        
         <!-- 分类导航 -->
         <nav class="nav-bar nav-fixed">
             <div class="nav-scroll">
@@ -396,17 +402,64 @@ export default {
 /* 基础样式 */
 .gallery-page {
     min-height: 100vh;
-    background: #f8fafc;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+/* 顶部提示条 */
+.notice-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: #3F64E4;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    z-index: 101;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.notice-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.notice-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 640px) {
+    .notice-bar {
+        font-size: 12px;
+        height: 36px;
+    }
+    
+    .notice-text {
+        white-space: normal;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
 }
 
 /* 导航栏 - 固定在顶部 */
 .nav-bar {
     position: fixed;
-    top: 0;
+    top: 40px;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     z-index: 100;
@@ -444,14 +497,15 @@ export default {
 }
 
 .nav-item:hover {
-    background: #f1f5f9;
-    color: #334155;
+    background: rgba(63, 100, 228, 0.08);
+    color: #3F64E4;
 }
 
 .nav-item.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #3F64E4;
     color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 15px rgba(63, 100, 228, 0.35);
+    transform: translateY(-1px);
 }
 
 .nav-icon {
@@ -462,7 +516,7 @@ export default {
 .content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 100px 20px 40px;
+    padding: 140px 20px 40px;
 }
 
 /* 分组 */
@@ -473,33 +527,48 @@ export default {
 .group-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 25px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #e2e8f0;
+    gap: 12px;
+    margin-bottom: 30px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(63, 100, 228, 0.15);
+    position: relative;
+}
+
+.group-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, #3F64E4, rgba(63, 100, 228, 0.3));
+    border-radius: 1px;
 }
 
 .group-icon {
-    font-size: 24px;
+    font-size: 26px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
 .group-title {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
     color: #1e293b;
     margin: 0;
+    letter-spacing: -0.5px;
 }
 
 /* 区块 */
 .section {
-    margin-bottom: 40px;
+    margin-bottom: 45px;
 }
 
 .section-info {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
+    padding: 0 4px;
 }
 
 .section-name {
@@ -507,14 +576,32 @@ export default {
     font-weight: 600;
     color: #334155;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-name::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: #3F64E4;
+    border-radius: 2px;
 }
 
 .section-count {
     font-size: 12px;
-    color: #94a3b8;
-    background: #f1f5f9;
-    padding: 3px 10px;
-    border-radius: 10px;
+    color: #64748b;
+    background: rgba(63, 100, 228, 0.08);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.section:hover .section-count {
+    background: rgba(63, 100, 228, 0.15);
+    color: #3F64E4;
 }
 
 /* 移动端画廊 */
@@ -537,8 +624,12 @@ export default {
 }
 
 .mobile-gallery::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 2px;
+    background: linear-gradient(90deg, #cbd5e1, #94a3b8);
+    border-radius: 4px;
+}
+
+.mobile-gallery::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #94a3b8, #64748b);
 }
 
 .mobile-grid {
@@ -569,18 +660,21 @@ export default {
 .phone-frame {
     width: 140px;
     height: 280px;
-    background: #0f0f0f;
+    background: #334155;
     border-radius: 18px;
     padding: 4px;
     box-shadow: 
-        0 15px 35px -10px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+        0 15px 35px -10px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
     position: relative;
     transition: transform 0.3s ease;
 }
 
 .phone-frame:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 
+        0 20px 40px -10px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
 
 .phone-notch {
@@ -590,15 +684,16 @@ export default {
     transform: translateX(-50%);
     width: 45px;
     height: 14px;
-    background: #0f0f0f;
-    border-radius: 0 0 8px 8px;
+    background: #334155;
+    border-radius: 0 0 10px 10px;
     z-index: 2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .phone-screen {
     width: 100%;
     height: 100%;
-    background: #000;
+    background: #f1f5f9;
     border-radius: 14px;
     overflow: hidden;
 }
@@ -634,8 +729,12 @@ export default {
 }
 
 .pc-gallery::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 2px;
+    background: linear-gradient(90deg, #cbd5e1, #94a3b8);
+    border-radius: 4px;
+}
+
+.pc-gallery::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #94a3b8, #64748b);
 }
 
 .pc-grid {
@@ -654,20 +753,21 @@ export default {
 /* 显示器框架 - 无底座 */
 .monitor-frame {
     width: 260px;
-    background: #1a1a2e;
+    background: #e2e8f0;
     border-radius: 8px;
     padding: 3px;
-    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease;
 }
 
 .monitor-frame:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
 }
 
 .monitor-header {
-    height: 20px;
-    background: #2d2d44;
+    height: 14px;
+    background: #cbd5e1;
     border-radius: 6px 6px 0 0;
     display: flex;
     align-items: center;
@@ -688,7 +788,7 @@ export default {
 .monitor-screen {
     width: 100%;
     aspect-ratio: 16/10;
-    background: #1a1a2e;
+    background: #EDEDED;
     border-radius: 0 0 5px 5px;
     overflow: hidden;
 }
@@ -707,22 +807,18 @@ export default {
 /* 悬停遮罩 */
 .item-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
-    border-radius: 18px;
+    transition: all 0.35s ease;
+    pointer-events: none;
 }
 
-.pc-item .item-overlay {
-    border-radius: 8px;
-}
+
 
 .mobile-item:hover .item-overlay,
 .pc-item:hover .item-overlay {
@@ -730,16 +826,26 @@ export default {
 }
 
 .zoom-icon {
-    width: 40px;
-    height: 40px;
-    fill: white;
+    width: 44px;
+    height: 44px;
+    fill: #3F64E4;
+    background: white;
+    border-radius: 50%;
+    padding: 10px;
     transform: scale(0.5);
-    transition: transform 0.3s ease;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .mobile-item:hover .zoom-icon,
 .pc-item:hover .zoom-icon {
     transform: scale(1);
+    box-shadow: 0 6px 20px rgba(63, 100, 228, 0.4);
+}
+
+.mobile-item:active .zoom-icon,
+.pc-item:active .zoom-icon {
+    transform: scale(0.95);
 }
 
 /* 返回顶部 */
@@ -751,10 +857,10 @@ export default {
     height: 44px;
     border: none;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #3F64E4;
     color: white;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(63, 100, 228, 0.4);
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.3s ease;
@@ -770,8 +876,12 @@ export default {
 }
 
 .back-to-top:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(63, 100, 228, 0.5);
+}
+
+.back-to-top:active {
+    transform: translateY(-2px) scale(0.98);
 }
 
 .back-to-top svg {
@@ -795,7 +905,11 @@ export default {
 /* 响应式 - 手机 */
 @media (max-width: 640px) {
     .content {
-        padding-top: 80px;
+        padding-top: 120px;
+    }
+    
+    .nav-scroll {
+        padding: 10px 16px;
     }
     
     .nav-item {
@@ -808,11 +922,20 @@ export default {
     }
     
     .group-title {
-        font-size: 20px;
+        font-size: 22px;
+    }
+    
+    .group-header {
+        margin-bottom: 24px;
+        padding-bottom: 12px;
     }
     
     .section-name {
         font-size: 16px;
+    }
+    
+    .section-name::before {
+        height: 16px;
     }
     
     .phone-frame {
@@ -824,7 +947,7 @@ export default {
     .phone-notch {
         width: 40px;
         height: 12px;
-        border-radius: 0 0 6px 6px;
+        border-radius: 0 0 8px 8px;
     }
     
     .phone-screen {
@@ -854,7 +977,7 @@ export default {
 }
 
 :global(.lg-toolbar) {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: #3F64E4 !important;
 }
 
 :global(.lg-thumb-outer) {
@@ -862,6 +985,6 @@ export default {
 }
 
 :global(.lg-thumb-item.active) {
-    border-color: #667eea !important;
+    border-color: #3F64E4 !important;
 }
 </style>
